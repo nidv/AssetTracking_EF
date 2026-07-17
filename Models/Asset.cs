@@ -35,6 +35,10 @@ public abstract class Asset
     public int OfficeId { get; set; }
     public Office? Office { get; set; }
 
+    // Level 5 requirement - Employee assignment
+    public int? EmployeeId { get; set; }
+    public Employee? AssignedTo { get; set; }
+
     // Level 2 requirement - Asset Age Calculation
     public LifespanStatus LifeStatus
     {

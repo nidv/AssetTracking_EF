@@ -22,8 +22,16 @@ public enum LifespanStatus
 {
     Normal,  // More than 6 months remaining
     Red,     // Less than 6 months remaining
-    Yellow,  // Less than 3 months remaining 
+    Yellow,  // Less than 3 months remaining
     Expired   // End of life has passed
+}
+
+// Level 5 requirement - System roles 
+public enum Role
+{
+    Admin,
+    Manager,
+    Employee
 }
 
 

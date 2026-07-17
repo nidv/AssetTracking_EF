@@ -9,6 +9,7 @@ public class AssetTrackingDbContext : DbContext
 
     public DbSet<Asset> Assets => Set<Asset>();
     public DbSet<Office> Offices => Set<Office>();
+    public DbSet<Employee> Employees => Set<Employee>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -38,6 +39,11 @@ public class AssetTrackingDbContext : DbContext
              .HasForeignKey(a => a.OfficeId)
              .OnDelete(DeleteBehavior.Restrict);
 
+            b.HasOne(a => a.AssignedTo)
+             .WithMany(e => e.AssignedAssets)
+             .HasForeignKey(a => a.EmployeeId)
+             .OnDelete(DeleteBehavior.Restrict);
+
             b.HasIndex(a => a.SerialNumber).IsUnique();
             b.HasIndex(a => a.PurchaseDate);
             b.HasIndex(a => a.OfficeId);
@@ -50,6 +56,15 @@ public class AssetTrackingDbContext : DbContext
             b.Property(o => o.Country).IsRequired().HasMaxLength(60);
             b.Property(o => o.Currency).HasConversion<string>().HasMaxLength(8);
             b.HasIndex(o => o.Name).IsUnique();
+        });
+
+        modelBuilder.Entity<Employee>(b =>
+        {
+            b.Property(e => e.FullName).IsRequired().HasMaxLength(60);
+            b.Property(e => e.Department).IsRequired().HasMaxLength(60);
+            b.Property(e => e.Role).HasConversion<string>().HasMaxLength(20);
+            b.Property(e => e.Email).IsRequired().HasMaxLength(100);
+            b.HasIndex(e => e.Email).IsUnique();
         });
 
 
